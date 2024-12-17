@@ -10,32 +10,31 @@ fn main() {
     // let mut total = 0;
     let mut input = vec![];
     let mut blocks = vec![];
-    let dirs = Vec::from(['N','E','S','W']);
+    let dirs = Vec::from(['N', 'E', 'S', 'W']);
     let mut g_map = HashMap::new();
-    let mut start: (i32,i32) = (0,0);
+    let mut start: (i32, i32) = (0, 0);
     let mut obs = vec![];
 
     if let Ok(lines) = read_lines(IN_FILE) {
         let mut y = 0;
         for line in lines.flatten() {
             for x in line.match_indices("#") {
-                blocks.push((x.0 as i32,y));
+                blocks.push((x.0 as i32, y));
             }
             for x in line.match_indices("^") {
-                start = (x.0 as i32,y);
+                start = (x.0 as i32, y);
             }
             input.push(line);
             y += 1;
         }
     }
 
-    let max_y:i32 = input.len() as i32;
-    let max_x:i32 = input[0].len() as i32;
-    let mut ob; 
+    let max_y: i32 = input.len() as i32;
+    let max_x: i32 = input[0].len() as i32;
+    let mut ob;
     for i in 0..max_y {
         for j in 0..max_x {
-            
-            ob = (j,i);
+            ob = (j, i);
             // println!("New ob at: {:?}", ob);
             // Start facing N. Add to the guard map.
             let mut facing = 0;
@@ -48,62 +47,63 @@ fn main() {
             loop {
                 let nxt = get_next(cur, dirs[facing]);
                 // println!("Trying {:?}", nxt);
-                
+
                 // if pos seen before with dir break and record this obstacle.
-                if g_map.get(&nxt).unwrap_or(&vec!['x']).contains(&dirs[facing]) {
+                if g_map
+                    .get(&nxt)
+                    .unwrap_or(&vec!['x'])
+                    .contains(&dirs[facing])
+                {
                     println!("Looping at {:?}, ob {:?}", nxt, ob);
                     obs.push(ob);
                     break;
                 }
 
-                if blocks.contains(&nxt) || match nxt {
-                    (x,y) => x == j && y == i,
-                }{
+                if blocks.contains(&nxt)
+                    || match nxt {
+                        (x, y) => x == j && y == i,
+                    }
+                {
                     // Rotate direction 90 degrees.
-                    facing = (facing+1) % 4;
+                    facing = (facing + 1) % 4;
                     // println!("Blocked at {:?} rotated to face {}", nxt, dirs[facing]);
                     continue;
                 }
 
                 // if invalid - out of bounds or blocked, rotate and try again.
                 if match nxt {
-                    (_x,-1) => true,
-                    (-1,_y) => true,
-                    (x,y) => x >= max_x || y >= max_y,
-                }  {
+                    (_x, -1) => true,
+                    (-1, _y) => true,
+                    (x, y) => x >= max_x || y >= max_y,
+                } {
                     // println!("Leaving map at {:?} to {:?}", cur, nxt);
                     break;
-                } 
+                }
 
-
-                // else set pos and dir as current 
+                // else set pos and dir as current
                 cur = nxt;
                 if g_map.contains_key(&cur) {
                     g_map.entry(cur).and_modify(|f| f.push(dirs[facing]));
                 } else {
-                    g_map.insert(cur,Vec::from([dirs[facing]]));
+                    g_map.insert(cur, Vec::from([dirs[facing]]));
                 }
             }
         }
-
     }
 
     println!("Total: {}", obs.len());
     // 1304 - brute forced part 2.
 }
 
-fn get_next(cur: (i32, i32), dir: char) -> (i32,i32) {
-
+fn get_next(cur: (i32, i32), dir: char) -> (i32, i32) {
     match dir {
-        'N' => (cur.0, cur.1-1),
-        'E' => (cur.0+1, cur.1),
-        'S' => (cur.0, cur.1+1),
-        'W' => (cur.0-1, cur.1),
-        _ => (0,0),
+        'N' => (cur.0, cur.1 - 1),
+        'E' => (cur.0 + 1, cur.1),
+        'S' => (cur.0, cur.1 + 1),
+        'W' => (cur.0 - 1, cur.1),
+        _ => (0, 0),
     }
 }
-
-
 
 // The output is wrapped in a Result to allow matching on errors.
 // Returns an Iterator to the Reader of the lines of the file.

@@ -2,33 +2,28 @@ use regex::Regex;
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-// use std::collections::HashMap;
 
 // const IN_FILE: &str = "./test.txt";
 const IN_FILE: &str = "./in.txt";
 
 fn main() {
     let mut total = 0;
-    
+
     if let Ok(lines) = read_lines(IN_FILE) {
         // Consumes the iterator, returns an (Optional) String
         let re = Regex::new(r"(?m)(mul\([0-9]{1,3},[0-9]{1,3}\))").unwrap();
         let mut input = vec![];
 
         // Join one big string.
-        let mut all_in= String::new();
+        let mut all_in = String::new();
 
         for line in lines.flatten() {
             all_in.push_str(&line);
-            // println!("{}", line);
-            // for (_, [num_1, num_2]) in re.captures_iter(line.as_str()).map(|c| c.extract()) {
         }
 
-        // println!("all_in {}", all_in);
-
         // Find the don't() - do() and remove anything in between.
-        let mut start = 0;
-        let mut end = 0;
+        let mut start;
+        let mut end;
         loop {
             // seek next don't()
             // if no dont, were done
@@ -36,50 +31,42 @@ fn main() {
             if s == None {
                 println!("No more donts");
                 break;
-            }
-            else {
+            } else {
                 start = s.unwrap();
                 println!("dont at {}", start);
             }
             // seek next do()
             // if no do, end is all_in.len()-1 and were done
             // Skip spurious dos before dont with .{start}
-            
+
             let e = all_in.find("do()");
             if e == None {
-                end = all_in.len()-1;
+                end = all_in.len() - 1;
                 println!("No more dos going to end {}", end);
-            }
-            else {
+            } else {
                 // add chars for "o()" string (hope its not out of bounds.)
-                end = e.unwrap()+3;
+                end = e.unwrap() + 3;
                 println!("do at {}", end);
             }
 
             // If do before the dont, Fudge it.
             if start > end {
-                all_in.replace_range(end-3..end, "");    
-            }
-            else  {
+                all_in.replace_range(end - 3..end, "");
+            } else {
                 // Discard the dont section.
                 all_in.replace_range(start..end, "");
                 println!("removed {}..{}", start, end);
             }
-            start = 0;
-            end = 0;
         }
-        // println!("all_in {}", all_in);
 
         for (q, [_]) in re.captures_iter(all_in.as_str()).map(|c| c.extract()) {
             // println!("Matches: {} {:?}" str);
             input.push(map_ints(q));
         }
-        
 
         for (a, b) in input {
-            total += a*b;
+            total += a * b;
         }
-
 
         println!("Total: {}", total);
         // 2999776 - too low
@@ -87,15 +74,15 @@ fn main() {
     }
 }
 
-fn map_ints(line: &str) -> (u32,u32) {
+fn map_ints(line: &str) -> (u32, u32) {
     let re = Regex::new(r"(?m)mul\(([0-9]{1,3}),([0-9]{1,3})\)").unwrap();
-    let mut x:u32 = 0;
+    let mut x: u32 = 0;
     let mut y: u32 = 0;
     for (_, [num_1, num_2]) in re.captures_iter(line).map(|c| c.extract()) {
         x = num_1.parse::<u32>().unwrap();
         y = num_2.parse::<u32>().unwrap();
     }
-    return (x,y);
+    return (x, y);
 }
 
 // The output is wrapped in a Result to allow matching on errors.

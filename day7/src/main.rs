@@ -21,7 +21,7 @@ fn main() {
     }
 
     let mut total = 0;
-    for (k,v) in equation.iter() {
+    for (k, v) in equation.iter() {
         // Take the first number and add to current vec.
         let mut current = Vec::from([v[0]]);
         for i in 1..v.len() {
@@ -29,7 +29,6 @@ fn main() {
             current = next;
         }
         if current.contains(&k) {
-            // println!("Solved {} in {:?}", k, current);
             println!("Solved {}", k);
             total += k;
         }
@@ -40,50 +39,50 @@ fn main() {
     // 737128 - too low - found first and broke.
     // 1038838357435 - too low
     // Between 1038838,357435 and 1038838,603451 - diff is 246016 - coincidentally (of course) there is one single row for that number.
-    // 360 was already seen but map replaced it. Could just resubmit prev with +360 but wheres the fun... 
+    // 360 was already seen but map replaced it. Could just resubmit prev with +360 but wheres the fun...
     // 1038838357795 - after simple change from map to a vector of (int,vec)
     // Part 2
     // 254136560217241 - Simple formatting of the strings as a 3rd operator in the transform2 func.
 }
 
-fn transform(current: &Vec<u64>, v:u64, k:u64) -> Vec<u64> {
+fn transform(current: &Vec<u64>, v: u64, k: u64) -> Vec<u64> {
     // println!("Transforming {:?} to find {k} using {}", current,v);
     let mut next = Vec::new();
     for c in current {
         // Add.
-        let mut t = c+v;
-        if t<=k {
+        let mut t = c + v;
+        if t <= k {
             next.push(t);
         }
 
         // Multiply
-        t = c*v;
-        if t<=k {
+        t = c * v;
+        if t <= k {
             next.push(t);
         }
     }
     next
 }
 
-fn transform2(current: &Vec<u64>, v:u64, k:u64) -> Vec<u64> {
+fn transform2(current: &Vec<u64>, v: u64, k: u64) -> Vec<u64> {
     // println!("Transforming {:?} to find {k} using {}", current,v);
     let mut next = Vec::new();
     for c in current {
         // Add.
-        let mut t = c+v;
-        if t<=k {
+        let mut t = c + v;
+        if t <= k {
             next.push(t);
         }
 
         // Multiply
-        t = c*v;
-        if t<=k {
+        t = c * v;
+        if t <= k {
             next.push(t);
         }
 
         // Append v to c.
-        t = format!("{}{}",c,v).parse::<u64>().unwrap();
-        if t<=k {
+        t = format!("{}{}", c, v).parse::<u64>().unwrap();
+        if t <= k {
             next.push(t);
         }
     }

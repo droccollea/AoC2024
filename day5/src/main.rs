@@ -17,7 +17,6 @@ fn main() {
 
     let mut bad_pages = vec![];
 
-
     // let re = Regex::new(r"(?m)(?<before>\d)+|(?<after>\d)+").unwrap();
     // let re2 = Regex::new(r"(?m)(?<pages>[0-9,])+").unwrap();
 
@@ -30,7 +29,6 @@ fn main() {
                 before.entry(r[0].clone()).or_insert(Vec::new());
                 let v: &mut Vec<String> = before.get_mut(&r[0]).unwrap();
                 v.push(r[1].clone());
-                
             } else if line.contains(',') {
                 // Pages
                 let r: Vec<String> = line.split(',').map(str::to_string).collect();
@@ -51,17 +49,18 @@ fn main() {
             for j in 0..page.len() {
                 if i == j {
                     continue;
-                } else if j < i { // j after i. So is the an i rule broken?
+                } else if j < i {
+                    // j after i. So is the an i rule broken?
                     if before.contains_key(&page[i]) && before[&page[i]].contains(&page[j]) {
                         // println!("j>i {} should be before  {}", page[i], page[j]);
                         good = false;
                     }
-                } else { // j before i
+                } else {
+                    // j before i
                     if before.contains_key(&page[j]) && before[&page[j]].contains(&page[i]) {
                         // println!("2 {} should be before {}", page[j], page[i]);
                         good = false;
                     }
-
                 }
             }
             if !good {
@@ -85,14 +84,16 @@ fn main() {
             for j in 0..page.len() {
                 if i == j {
                     continue;
-                } else if j < i { // j after i. So is the an i rule broken?
+                } else if j < i {
+                    // j after i. So is the an i rule broken?
                     if before.contains_key(&page[i]) && before[&page[i]].contains(&page[j]) {
                         println!("{} should be before {}, swapping", page[i], page[j]);
                         let temp = page[i].clone();
                         page[i] = page[j].clone();
                         page[j] = temp;
                     }
-                } else { // j before i
+                } else {
+                    // j before i
                     if before.contains_key(&page[j]) && before[&page[j]].contains(&page[i]) {
                         println!(" {} should be before {}", page[j], page[i]);
                         let temp = page[i].clone();
@@ -104,7 +105,7 @@ fn main() {
         }
         println!("fixed pages {:?}", page);
         // let x: i32 = page.len()+1/2;
-        total += page[(&page.len()-1)/2].parse::<i32>().unwrap();
+        total += page[(&page.len() - 1) / 2].parse::<i32>().unwrap();
     }
 
     println!("Total: {}", total);

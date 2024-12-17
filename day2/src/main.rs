@@ -2,18 +2,15 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-
 // const IN_FILE: &str = "./test.txt";
 const IN_FILE: &str = "./in.txt";
 
 fn main() {
-
     let mut total = 0;
     let mut input: Vec<Vec<i32>> = Vec::new();
 
     // Build vector of lines of parsed numbers.
     if let Ok(lines) = read_lines(IN_FILE) {
- 
         // Get the space separated nums to a vector. Add this to the main vector.
         for line in lines.flatten() {
             // let nums = line.split(' ').map(|x| x.parse::<u32>()).collect();
@@ -33,15 +30,13 @@ fn main() {
         // second chance. Iterate original and skip one by one until safe or end of vec.
         else {
             for i in 0..len {
-                let mut second:Vec<i32> = Vec::new();
-                for (j,v) in levels.iter().enumerate() {
+                let mut second: Vec<i32> = Vec::new();
+                for (j, _v) in levels.iter().enumerate() {
                     if i == j {
                         continue;
-                    }
-                    else {
+                    } else {
                         second.push(levels[j]);
                     }
-
                 }
                 if is_safe(second) {
                     // println!("Second is safe");
@@ -49,27 +44,23 @@ fn main() {
                     break;
                 }
             }
-
         }
     }
 
     println!("Total safe: {}", total);
-
 }
 
 fn is_safe(levels: Vec<i32>) -> bool {
-
     let asc = levels[0] < levels[1];
     let len = levels.len();
 
-    for i in 0..len-1 {
+    for i in 0..len - 1 {
         // if inc, needs to be always up and by 1-3 only.
         // else needs to be always down and by 1-3 only.
-        if asc && !(levels[i+1] > levels[i] && levels[i+1] <= levels[i]+3) {
+        if asc && !(levels[i + 1] > levels[i] && levels[i + 1] <= levels[i] + 3) {
             // println!("asc unsafe {} {}", levels[i], levels[i+1]);
             return false;
-        }
-        else if !asc && !(levels[i+1] < levels[i] && levels[i+1] >= levels[i]-3) {
+        } else if !asc && !(levels[i + 1] < levels[i] && levels[i + 1] >= levels[i] - 3) {
             // println!("dsc unsafe {} {}", levels[i], levels[i+1]);
             return false;
         }
