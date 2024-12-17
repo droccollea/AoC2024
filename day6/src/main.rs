@@ -35,7 +35,6 @@ fn main() {
     for i in 0..max_y {
         for j in 0..max_x {
             ob = (j, i);
-            // println!("New ob at: {:?}", ob);
             // Start facing N. Add to the guard map.
             let mut facing = 0;
             g_map.clear();
@@ -43,10 +42,8 @@ fn main() {
 
             // Advance through the map until we arrive back at a point been before facing the same dir.
             let mut cur = start;
-            // println!("Starting at {:?}", start);
             loop {
                 let nxt = get_next(cur, dirs[facing]);
-                // println!("Trying {:?}", nxt);
 
                 // if pos seen before with dir break and record this obstacle.
                 if g_map
@@ -54,7 +51,6 @@ fn main() {
                     .unwrap_or(&vec!['x'])
                     .contains(&dirs[facing])
                 {
-                    println!("Looping at {:?}, ob {:?}", nxt, ob);
                     obs.push(ob);
                     break;
                 }
@@ -66,7 +62,6 @@ fn main() {
                 {
                     // Rotate direction 90 degrees.
                     facing = (facing + 1) % 4;
-                    // println!("Blocked at {:?} rotated to face {}", nxt, dirs[facing]);
                     continue;
                 }
 
@@ -76,7 +71,6 @@ fn main() {
                     (-1, _y) => true,
                     (x, y) => x >= max_x || y >= max_y,
                 } {
-                    // println!("Leaving map at {:?} to {:?}", cur, nxt);
                     break;
                 }
 

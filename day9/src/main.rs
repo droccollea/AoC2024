@@ -37,8 +37,6 @@ fn main() {
             initial.push((0, l));
         }
     }
-    // println!("Initial: {:?}", initial);
-    // println!("Files by size: {:?}",files_by_size);
 
     // Defrag.
     for i in 0..initial.len() {
@@ -46,15 +44,12 @@ fn main() {
         if i % 2 == 0 {
             if id_moved.contains(&initial[i].0) {
                 defragged.push((0, initial[i].1));
-                // println!("Already moved {:?}", initial[i]);
             } else {
                 defragged.push(initial[i]);
                 id_moved.insert(initial[i].0);
-                // println!("Wrote {:?}", initial[i]);
             }
         } else {
             let mut l = initial[i].1;
-            // println!("Need a file of length {l}");
             loop {
                 let r = l - find_by_size(&files_by_size, l, &mut id_moved, &mut defragged);
                 if r == 0 {
@@ -67,8 +62,6 @@ fn main() {
     // Count it up.
     let mut total: i64 = 0;
     let mut i: i64 = 0;
-
-    // println!("Defragged: {:?}", defragged);
 
     for (id, len) in defragged {
         for _l in 0..len {
@@ -98,6 +91,6 @@ fn find_by_size(
     }
     defragged.push((id, size));
     id_moved.insert(id);
-    // println!("Moved {id} of length {size}");
+
     return size;
 }

@@ -13,9 +13,6 @@ fn main() {
             let v: Vec<&str> = line.split(": ").collect();
             let k = v[0].parse::<u64>().unwrap();
             let operands: Vec<u64> = v[1].split(" ").map(|f| f.parse::<u64>().unwrap()).collect();
-            // if equation.contains_key(&k) {
-            //     println!("Already seen {}", k);
-            // }
             equation.push((k, operands));
         }
     }
@@ -29,7 +26,6 @@ fn main() {
             current = next;
         }
         if current.contains(&k) {
-            println!("Solved {}", k);
             total += k;
         }
     }
@@ -45,8 +41,8 @@ fn main() {
     // 254136560217241 - Simple formatting of the strings as a 3rd operator in the transform2 func.
 }
 
+#[allow(dead_code)] // Allow this dead code for part 1.
 fn transform(current: &Vec<u64>, v: u64, k: u64) -> Vec<u64> {
-    // println!("Transforming {:?} to find {k} using {}", current,v);
     let mut next = Vec::new();
     for c in current {
         // Add.
@@ -65,7 +61,6 @@ fn transform(current: &Vec<u64>, v: u64, k: u64) -> Vec<u64> {
 }
 
 fn transform2(current: &Vec<u64>, v: u64, k: u64) -> Vec<u64> {
-    // println!("Transforming {:?} to find {k} using {}", current,v);
     let mut next = Vec::new();
     for c in current {
         // Add.

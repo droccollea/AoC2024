@@ -24,7 +24,6 @@ fn main() {
     for levels in input {
         let len = levels.len();
         if is_safe(levels.clone()) {
-            // println!("Levels is safe");
             total += 1;
         }
         // second chance. Iterate original and skip one by one until safe or end of vec.
@@ -39,7 +38,6 @@ fn main() {
                     }
                 }
                 if is_safe(second) {
-                    // println!("Second is safe");
                     total += 1;
                     break;
                 }
@@ -58,10 +56,8 @@ fn is_safe(levels: Vec<i32>) -> bool {
         // if inc, needs to be always up and by 1-3 only.
         // else needs to be always down and by 1-3 only.
         if asc && !(levels[i + 1] > levels[i] && levels[i + 1] <= levels[i] + 3) {
-            // println!("asc unsafe {} {}", levels[i], levels[i+1]);
             return false;
         } else if !asc && !(levels[i + 1] < levels[i] && levels[i + 1] >= levels[i] - 3) {
-            // println!("dsc unsafe {} {}", levels[i], levels[i+1]);
             return false;
         }
     }

@@ -29,11 +29,9 @@ fn main() {
             // if no dont, were done
             let s = all_in.find("don't()");
             if s == None {
-                println!("No more donts");
                 break;
             } else {
                 start = s.unwrap();
-                println!("dont at {}", start);
             }
             // seek next do()
             // if no do, end is all_in.len()-1 and were done
@@ -42,11 +40,9 @@ fn main() {
             let e = all_in.find("do()");
             if e == None {
                 end = all_in.len() - 1;
-                println!("No more dos going to end {}", end);
             } else {
                 // add chars for "o()" string (hope its not out of bounds.)
                 end = e.unwrap() + 3;
-                println!("do at {}", end);
             }
 
             // If do before the dont, Fudge it.
@@ -55,12 +51,10 @@ fn main() {
             } else {
                 // Discard the dont section.
                 all_in.replace_range(start..end, "");
-                println!("removed {}..{}", start, end);
             }
         }
 
         for (q, [_]) in re.captures_iter(all_in.as_str()).map(|c| c.extract()) {
-            // println!("Matches: {} {:?}" str);
             input.push(map_ints(q));
         }
 

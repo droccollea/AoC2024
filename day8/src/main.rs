@@ -41,8 +41,7 @@ fn main() {
     // Iterate the key values.
     // For each group, check for a pair then check if the pair has an antinode either side.
     // Assuming an antenna/antinode serves many groups.
-    for (key, nodes) in map.iter() {
-        println!("Checking {}", key);
+    for (_key, nodes) in map.iter() {
         for i in 0..nodes.len() {
             for j in i + 1..nodes.len() {
                 // get x and y diff between nodes[i] and nodes[j]
@@ -81,7 +80,6 @@ fn main() {
             }
         }
     }
-    //    println!("uniqs: {:?}", uniqs);
 
     println!("Total: {}", uniqs.len());
     // Part 1

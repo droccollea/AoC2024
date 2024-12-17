@@ -25,7 +25,6 @@ fn main() {
 
         // let mut total = 0;
         // for n in 0..results_1.len() {
-        // println!("{} : {}", results_1[n], results_2[n]);
         // if results_1[n] > results_2[n] {
         //     total = total + (results_1[n] - results_2[n]);
         // } else if results_1[n] < results_2[n] {
